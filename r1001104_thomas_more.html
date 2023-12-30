@@ -69,24 +69,24 @@
                             </label>
                           </div>
                           <div class="form-check">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="app">
                             <label class="form-check-label" for="flexRadioDefault1">
                               Banking app
                             </label>
                           </div>
                           <div class="form-check">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="overschrijving" checked>
                             <label class="form-check-label" for="flexRadioDefault2">
                               Overschrijving
                             </label>
                           </div><div class="form-check">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="visa">
                             <label class="form-check-label" for="flexRadioDefault1">
                               Visa
                             </label>
                           </div>
                           <div class="form-check">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault4" checked>
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="paypal" checked>
                             <label class="form-check-label" for="flexRadioDefault2">
                               Paypal
                             </label>
@@ -98,7 +98,7 @@
             </div>
             <div class="col">
                 <div id="success" class="alert alert-success" role="alert">
-                    A simple success alert—check it out!
+                  <h2>Goed gedaan</h2>  <p> Je bent geregistreerd</p>
                 </div>
                 <div id="errors" class="alert alert-danger" role="alert">
                     <ul class="mb-0">
@@ -106,7 +106,7 @@
                     </ul>
                 </div>
                 <div id="info" class="alert alert-info" role="alert">
-                    A simple info alert—check it out!
+                <h2>Betalingswijze</h2> <p id="keuze"></p>
                 </div>
             </div>
         </div>
@@ -135,6 +135,8 @@
             checkEmptyField('postcode','Het veld postcode is vereist')
             checkPostcode('postcode','De postcode is niet geldig kies een waarde tussen 1000 - 9999')
             checkwachtwoord('wachtwoord','wachtwoord2')
+            checkMail('mail')
+            checkBetaling('app', 'overschrijving','visa','paypal')
             if (errors.length > 0) {
                 let errorList = document.querySelector("#errors ul")
                 errorList.innerHTML = "";
@@ -167,10 +169,11 @@
         function checkwachtwoord(wachtwoordId,wachtwoord2Id){
             let wachtwoord = document.querySelector('#' + wachtwoordId).value;
             let wachtwoord2 = document.querySelector('#' + wachtwoord2Id).value;
-            if (wachtwoord !==wachtwoord2){
+            if (wachtwoord !== wachtwoord2){
                 errors.push('Wachtwoorden komen niet overeen');
             }
         }
+
         function checkPostcode(postcode,message) {
             let postcodeField = document.getElementById('postcode');
             if(postcodeField.value < 1000 || postcodeField.value > 9999){
@@ -178,6 +181,47 @@
             }
             
         }
+
+        function checkMail() {
+            let mailField = document.getElementById('mail');
+            let mailValue = mailField.value;
+
+            if (!checkEmail(mailValue)) {
+        errors.push('Geen geldig e-mailadres');
+    }
+}
+
+        function checkEmail(mail) {
+    const Apen = mail.indexOf('@') !== -1;
+    const Punt = mail.indexOf('.') !== -1;
+    return Apen && Punt;
+}
+
+      function checkBetaling() {
+    let keuze 
+    
+    switch (keuze) {
+        case 'app':
+            keuze = 'banking app';
+            break;
+        case 'overschrijving':
+            keuze = 'overschrijving';
+            break;
+        case 'visa':
+            keuze = 'visa';
+            break;
+        case 'paypal':
+            keuze = 'paypal';
+            break;
+        default:
+            break;
+    }
+
+   
+    document.getElementById('keuze').innerText = `Je keuze is: ${keuze}`;
+}
+
+      
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
